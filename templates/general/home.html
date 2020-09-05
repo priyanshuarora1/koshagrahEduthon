@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/w3css.css' %}">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <link href="{% static 'css/fineCrop.css' %}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"
+        crossorigin="anonymous"></script>
+    <!-- <script src="js/fineCrop.js"></script> -->
+    <script src="{% static 'js/fineCrop.js' %}"></script>
+</head>
+<style>
+    a{
+        text-decoration:none;
+    }
+    button {
+        outline: none;
+    }
+</style>
+
+<body>
+    <div class="container">
+        {% block content %}
+        <center>
+            <form action="/post" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="w3-container  w3-round-large w3-hover-shadow w3-card-4"
+                    style="padding: 0px;max-width: 600px;">
+                    <textarea style="background:#ffffce;outline:0px;resize: none; border:0px;"
+                        class="w3-padding w3-round-large w3-border-bottom w3-input " type="text" rows="4"
+                        name="desc" placeholder="Write a new post..."></textarea>
+                    <input type="text" class="w3-padding w3-round-large w3-border-bottom w3-input " name="link"
+                        id="link" placeholder="Link" style="background:#ffffce;">
+                    <div class="image-upload w3-margin w-madding w3-large w3-left">
+                        <label for="file-input">
+                            <i class="fa fa-upload w3-xlarge"><span id="name"
+                                    class="w3-small w3-margin-left w3-text-blue">Attach Image</span></i>
+                        </label>
+                        <input type="text" id="outputimg" name="outputimg" style="display: none;">
+                        <input id="file-input" name="file" type="file" />
+                        <img id="output" name='pic' width="200" height="200" class="w3-card w3-hover-shadow"
+                            style="display:none" />
+                    </div>
+                    <button type="submit" class="w3-btn w3-round w3-right w3-margin w3-padding w3-yellow">Post</button>
+                </div>
+            </form>
+
+
+            <div class="cropHolder w3-card w3-blue w3-round-large">
+                <div id="cropWrapper">
+                    <img id="inputImage" src="images/city.jpg">
+                </div>
+                <div class="cropInputs w3-display-bottommiddle"
+                    style="display: flex; flex-direction:column; background:blue;width:100%;height:50%;z-index:2;">
+                    <div style="display: flex;flex-direction:row;margin:0px auto">
+                        <div class="inputtools">
+                            <p>
+                                <span>
+                                    <!-- <img src="{% static 'crop/horizontal.png' %}"> -->
+                                    <i style="font-size: 24px;" aria-hidden="true">&harr;
+                                    </i>
+                                </span>
+                                <span>horizontal movement</span>
+                            </p>
+                            <input type="range" class="cropRange" name="xmove" id="xmove" min="0" value="0">
+                        </div>
+                        <div class="inputtools">
+                            <p>
+                                <span>
+                                    <!-- <img src="{% static 'crop/vertical.png' %}"> -->
+                                    <i style="font-size: 24px;" aria-hidden="true">&#8597;
+                                    </i>
+                                </span>
+                                <span>vertical movement</span>
+                            </p>
+                            <input type="range" class="cropRange" name="ymove" id="ymove" min="0" value="0">
+                        </div>
+                    </div>
+                    <div style="display: flex;margin:0px auto">
+                        <button class="w3-button w3-circle w3-black w3-small w3-margin cropButtons" id="zplus">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <button class="w3-button w3-circle w3-black w3-small w3-margin cropButtons" id="zminus">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <br>
+                    <div style="display: flex;margin:0px auto">
+                        <button class="w3-button w3-margin w3-teal" id="cropSubmit">Crop</button>
+                        <button class="w3-button w3-margin w3-teal" id="closeCrop">Close</button>
+                    </div>
+                </div>
+            </div>
+            {% for post in posts %}
+            <div class="w3-card-4 w3-center w3-margin w3-hover-shadow w3-round-large" style="padding-bottom:20px;max-width:600px;background:#FFFFCE">
+                <header class="w3-container  w3-round-large">
+                    <a href="#" style="margin:10px 0px 0px 10px;display:flex;">
+                        <img class="w3-circle" style="height:40px; width:40px" src="media/{{post.photolink}}" alt="User"
+                            title="Click for menu">
+                        <h3 style="margin-left:10px;transform:translateY(-15px);">{{post.name}}</h3>
+                    </a>
+                    <h6 class="w3-left w3-small w3-text-gray" style="margin-left:60px;transform:translateY(-30px);user-select: none;">{{post.time}}</h6>
+                    <div class="w3-container" style="margin:0px;transform:translateY(-30px)">
+                        <p style="font-weight: bold; text-align: left;">{{post.desc}}</p>
+                        <button class="w3-btn w3-left w3-yellow w3-round-large w3-shadow"><a style="text-decoration:none"href="{{post.link}}" target="_blank">View More &rarr;</a></button>
+                    </div>
+                </header>
+                <div class="w3-container" style="background:#ffffce">
+                    {% if post.image %}
+                    <img src="media/{{post.image}}" style="border-bottom: 10px;border-radius:5px" height="200" width="200" alt="Avatar">
+
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+        </center>
+        {% endblock %}
+    </div>
+
+</body>
+<script>
+    /*  var loadFile = function (event) {
+          var image = document.getElementById('output');
+          image.style.display = "block";
+          image.src = URL.createObjectURL(event.target.files[0]);
+      }; */
+
+    $("#file-input").finecrop({
+        viewHeight: 500,
+        cropWidth: 200,
+        cropHeight: 200,
+        cropInput: 'inputImage',
+        cropOutput: 'output',
+        zoomValue: 50
+    });
+
+</script>
+
+</html>

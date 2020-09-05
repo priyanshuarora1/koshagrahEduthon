@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Koshagrah</title>
+  <style>
+    a{
+      text-decoration:none;
+    }
+    a:hover{
+      text-decoration:none;
+    }
+    .badge {
+      padding-left: 9px;
+      padding-right: 9px;
+      -webkit-border-radius: 9px;
+      -moz-border-radius: 9px;
+      border-radius: 9px;
+      font-size: 12px;
+      background: teal;
+      color: #fff;
+      padding: 0 5px;
+      vertical-align: top;
+    }
+  </style>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{% static 'css/w3css.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=0">
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{%static 'css/main.css' %}">
+  <!-- CSS only -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <!-- JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="w3-sidebar w3-bar-block" style="background:transparent;width:20%; margin-top:55px; box-shadow:1px 4px 8px 0 rgba(0, 0, 0, 0.2),0px 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <a style="text-decoration:none;" href="/home" target="rajat" class="w3-bar-item w3-center w3-button w3-round-xxlarge"><i
+        class="fa fa-home w3-padding"></i>HOME</a>
+    <a style="text-decoration:none;" href="/vault" target="rajat" class="w3-bar-item w3-center w3-button w3-round-xxlarge"><i
+        class="fa fa-suitcase w3-padding"></i>VAULT</a>
+    <a style="text-decoration:none;" href="/contacts" target="rajat" class="w3-bar-item w3-button w3-center w3-round-xxlarge"><i
+        class="fa fa-user w3-padding"></i>CONTACTS</a>
+    <a style="text-decoration:none;" href="/chat" target="rajat" class="w3-bar-item w3-center w3-button w3-round-xxlarge"><i
+        class="fa fa-comment-alt w3-padding"></i>CHAT</a>
+  </div>
+  <div class="container top w3-border-bottom">
+    <div class="top-nav" id="myDIV" >
+      <a href="#" class="w3-display-left w3-padding">
+        <h3>KOSHAGRAH</h3>
+      </a>
+      <a href="#" onclick="usermenu()" class="w3-display-right w3-padding"><img class="w3-circle "
+          style="height:40px; width:40px" src="media/{{user.photo}}"
+          alt="User" title="Click for menu"></a>
+    </div>
+  </div>
+  </div>
+
+  <div id="Demo" onclick="usermenu()" class="w3-border w3-card w3-white w3-round-large w3-display-topright w3-hide"
+    style="width:200px;margin-top:8vh;margin-right:5px;z-index: 100">
+    <a href="/profile" target="rajat" class="w3-button w3-block w3-padding w3-hover-light-gray">{{user.name}}</a>
+    <a href="/setting" target="rajat" class="w3-button w3-block w3-padding w3-hover-light-gray">Settings</a>
+    <a href="/logout" class="w3-button w3-block w3-padding w3-hover-light-gray">Logout</a>
+  </div>
+
+  <iframe id="rajat" src="/home" title="rajat" name="rajat"></iframe>
+  <div class="container bottom">
+    <div class="bottom-nav" id="myDIV">
+      <a href="/home" target="rajat" class="icon"> <i class="fa fa-home decorate"></i><br><span
+          style="color: #2F4F4F; font-size: 10px;">HOME</span></a>
+      <a href="/vault" target="rajat" class="icon"> <i class="fa fa-suitcase decorate"></i><br><span
+          style="color: #2F4F4F; font-size: 10px;">VAULT</span></a>
+      <a href="/contacts" target="rajat" class="icon"><i class="fa fa-user decorate"></i><br><span
+          style="color: #2F4F4F; font-size: 10px;">CONTACTS</span></a>
+      <a href="/chat" target="rajat" class="icon"> <i class="fa fa-comment-alt decorate"></i><span
+          style="position: fixed;" id="cartcount" class="badge"></span> <br><span
+          style="color: #2F4F4F; font-size: 10px;">CHAT</span></a>
+    </div>
+  </div>
+
+
+
+</body>
+<script>
+  function usermenu() {
+    var x = document.getElementById("Demo");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else {
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+</script>
+
+</html>

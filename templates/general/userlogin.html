@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1 max-scale=1 user-scalable=0">
+  {% block title %}
+  <title>Login | Koshagrah</title>
+{% endblock %}
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/userlogin.css' %}">
+  <link rel="stylesheet" href="{% static 'css/snackbar.css' %}">
+</head>
+
+<body>
+ 
+  <div id="snackBar" class="snackbar snack-show">
+		<span class="snackText" id="snackText"></span>
+		<button class="snack-button" id="snackButton"></button>
+    </div>
+  {% if error1 %}
+  <script>
+    window.onload = function(){ 
+       showSnackBar("{{error1}}",hasAction = false,actionText = String(),isNormal = false,isWarning = true);
+    }
+      </script>
+  {% endif %}
+  {% block content %}
+  <div class="form">
+    <ul class="tab-group">
+      <li class="tab active"><a href="#login">Log In</a></li>
+    </ul>
+      <h1>Welcome Back!</h1>
+      <form action="/login" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div id="login">
+        <div class="top-row">
+          <div class="field-wrap">
+            <input class="form-check-input" style="height: 20px; width: 20px; margin: 10px;" type="radio"
+              name="type" value="teacher" checked>
+            <label class="form-check-label" style="padding-left: 20px;" for="type">
+              Teacher
+            </label>
+          </div>
+          <div class="field-wrap">
+            <input class="form-check-input" style="height: 20px; width: 20px; margin:10px" type="radio"
+              name="type"  value="student">
+            <label class="form-check-label" style="padding-left: 20px;" for="type">
+              Student
+            </label>
+          </div>
+        </div>
+
+        <div class="field-wrap">
+          <label>
+            UserId<span class="req">*</span>
+          </label>
+          <input class="textfe" type="text" name="userid" required autocomplete="off" />
+        </div>
+
+        <div class="field-wrap">
+          <label>
+            Password<span class="req">*</span>
+          </label>
+          <input class="textfe" name="password" type="password" required autocomplete="off" />
+        </div>
+
+        <p class="forgot"><a href="#">Forgot Password?</a></p>
+
+        <button class="button button-block" />Log In</button>
+
+      </form>
+
+    </div>
+
+  </div><!-- tab-content -->
+{% endblock %}
+  </div>
+  <script src="{% static 'js/snackbar.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+ <script>
+
+    $('.form').find('input, textarea').on('keyup blur focus', function (e) {
+
+      var $this = $(this),
+        label = $this.prev('label');
+ 
+      if (e.type === 'keyup') {
+        if ($this.val() === '') {
+          label.removeClass('active highlight');
+        } else {
+          label.addClass('active highlight');
+        }
+      } else if (e.type === 'blur') {
+        if ($this.val() === '') {
+          label.removeClass('active highlight');
+        } else {
+          label.removeClass('highlight');
+        }
+      } else if (e.type === 'focus') {
+
+        if ($this.val() === '') {
+          label.removeClass('highlight');
+        }
+        else if ($this.val() !== '') {
+          label.addClass('highlight');
+        }
+      }
+
+    });
+
+    $('.tab a').on('click', function (e) {
+
+      e.preventDefault();
+
+      $(this).parent().addClass('active');
+      $(this).parent().siblings().removeClass('active');
+
+      target = $(this).attr('href');
+
+      $('.tab-content > div').not(target).hide();
+
+      $(target).fadeIn(600);
+
+    });
+ 
+
+
+
+  </script>
+
+</body>
+
+</html>

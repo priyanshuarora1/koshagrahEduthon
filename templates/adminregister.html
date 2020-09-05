@@ -1,0 +1,321 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1 max-scale=1 user-scalable=0">
+  <title>Admin Register</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<style>
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+
+  html {
+    overflow-y: scroll;
+  }
+
+  body {
+    background-image: url(https://wallpapercave.com/wp/wp3191390.jpg);
+    font-family: 'Titillium Web', sans-serif;
+    color: black;
+  }
+
+  .form {
+    background: rgba(0,0,0,0.8);
+    /* background-image: linear-gradient(blue,black); */
+    padding: 40px;
+    max-width: 600px;
+    margin: 40px auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+  }
+
+  .tab-group {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+  }
+
+  .tab-group:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .tab-group li {
+    display: block;
+    text-decoration: none;
+    padding: 15px;
+    background: #179b77;
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+    -webkit-transition: .5s ease;
+    transition: .5s ease;
+  }
+
+  h1 {
+    text-align: center;
+    color: #ffffff;
+    font-weight: 300;
+    margin: 0 0 40px;
+  }
+
+  label {
+    position: absolute;
+    -webkit-transform: translateY(6px);
+    transform: translateY(6px);
+    left: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    -webkit-backface-visibility: hidden;
+    pointer-events: none;
+    font-size: 22px;
+  }
+
+  label .req {
+    margin: 2px;
+    color: #1ab188;
+  }
+
+  label.active {
+    -webkit-transform: translateY(50px);
+    transform: translateY(50px);
+    left: 2px;
+    font-size: 14px;
+  }
+
+  label.active .req {
+    opacity: 0;
+  }
+
+  label.highlight {
+    color: #ffffff;
+  }
+
+  .textfe,
+  textarea {
+    font-size: 22px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+    background: none;
+    background-image: none;
+    border: 1px solid #a0b3b0;
+    color: #ffffff;
+    border-radius: 0;
+    -webkit-transition: border-color .25s ease, box-shadow .25s ease;
+    transition: border-color .25s ease, box-shadow .25s ease;
+  }
+
+  .textfe:focus,
+  textarea:focus {
+    outline: 0;
+    border-color: #1ab188;
+  }
+
+  textarea {
+    border: 2px solid #a0b3b0;
+    resize: vertical;
+  }
+
+  .field-wrap {
+    position: relative;
+    margin-bottom: 40px;
+  }
+  .top-row>div:last-child {
+    margin: 0;
+  }
+
+  .button {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: #00539CFF;
+    color: #ffffff;
+    padding: 10px;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+  }
+
+  .button:hover,
+  .button:focus {
+    background: #179b77;
+  }
+
+  .button-block {
+    display: block;
+    width: 100%;
+  }
+
+  .forgot {
+    margin-top: -20px;
+    text-align: right;
+  }
+  pre{
+    border: none;
+    background-color: inherit;
+  }
+  .wrong{
+        /*border: 1px solid red;*/
+    }
+    .errormsg {
+    margin-left: 20px;
+    margin-top:2px;
+    font-size: 1em;
+    color:red;
+    display: none;
+  }
+</style>
+
+<body>
+  <div class="form">
+    <ul class="tab-group">
+      <pre><li class="tab">A D M I N  R E G I S T E R</li></pre>
+    </ul>
+    <div class="tab-content">
+      <div id="login">
+        <form action="adminregister" method="post">
+          {% csrf_token %}
+          <div class="top-row" style="margin-bottom: 10px;">
+          <div class="field-wrap">
+            <!-- <label>Name of Organisation<span class="req">*</span></label> -->
+            <input class="textfe" type="text" id="name" name="name" placeholder="Name of Organisation" required autocomplete="off" />
+          </div>
+          <div class="field-wrap">
+            <!-- <label>Username<span class="req">*</span></label> -->
+            <input class="textfe" type="text" id="username" name="username" placeholder="Username" required autocomplete="off" />
+            <p id="usererr" class="errormsg">Username should contain at least 4 characters</p>
+
+
+          </div>
+          <div class="field-wrap">
+            <!-- <label>Organisation Mail Id<span class="req">*</span></label> -->
+            <input class="textfe" type="email" id="email" name="email" placeholder="Organisation Mail Id" required autocomplete="off" />
+            <p id="emailerr" class="errormsg">Wrong Email</p>
+          </div>
+          <div class="field-wrap">
+            <!-- <label>Phone Number<span class="req">*</span></label> -->
+            <input class="textfe" type="text" id="phone" name="phone" placeholder="Phone Number" required autocomplete="off" />
+            <p id="phoneerr" class="errormsg">Phone Number should be 10 digit</p>
+          </div>
+          <div class="field-wrap">
+            <!-- <label>Password<span class="req">*</span></label> -->
+            <input class="textfe" type="password" id="password" placeholder="Password" name="password" required autocomplete="off" />
+            <p id="passerr" class="errormsg">Password should be atleast 8 characters long</p>
+          </div>
+          <div class="field-wrap">
+            <!-- <label>Confirm Password<span class="req">*</span></label> -->
+            <input class="textfe" type="password" id="conpassword" placeholder="Confirm Password" onkeyup="checkpass()" name="conpassword" required autocomplete="off" />
+            <p id="conpasserr" class="errormsg">Confirm Password not matched</p>
+          </div>
+          <button class="button button-block" onclick="checksec1()" />Register</button>
+        </form>
+      </div>
+    </div><!-- tab-content -->
+  </div>
+
+  <script>
+    function checkpass(){
+      pass = document.getElementById("password");
+      conpass = document.getElementById("conpassword");
+      if(pass.value!=conpass.value){
+          conpass.classList.add("wrong");
+          document.getElementById("conpasserr").style.display="block";
+          return false;
+      }
+      else{
+          conpass.classList.remove("wrong");
+          document.getElementById("conpasserr").style.display="none";
+          return true;
+      }
+    }
+
+    function checksec1(){
+      flag=0;
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      name=document.getElementById("name");
+      username = document.getElementById("username");
+      email = document.getElementById("email");
+      phone = document.getElementById("phone");
+      pass = document.getElementById("password");
+      if(username.value.length < 4)
+      {
+          username.classList.add("wrong");
+          document.getElementById("usererr").style.display = "block";
+          flag=1;
+      }
+      else{
+          username.classList.remove("wrong");
+          document.getElementById("usererr").style.display = "none";
+      }
+      if(re.test(String(email.value).toLowerCase())==false){
+          email.classList.add("wrong");
+          document.getElementById("emailerr").style.display = "block";
+          flag=1;
+      }
+      else{
+          console.log(re.test(String(email.value).toLowerCase()));
+          email.classList.remove("wrong");
+          document.getElementById("emailerr").style.display = "none";
+      }
+      if(phone.value.length!=10){
+          phone.classList.add("wrong");
+          document.getElementById("phoneerr").style.display = "block";
+          flag=1;
+      }
+      else{
+          phone.classList.remove("wrong");
+          document.getElementById("phoneerr").style.display = "none";
+      }
+      if(pass.value.length<8){
+          pass.classList.add("wrong");
+          document.getElementById("passerr").style.display = "block";
+          flag=1;
+      }
+      else{
+          pass.classList.remove("wrong");
+          document.getElementById("passerr").style.display = "none";
+      }
+      // if(flag==0 && checkpass()==true){
+      //     $.post("/",
+      //         {
+      //             "name":name.value,
+      //             "username":username.value,
+      //             "email":email.value,
+      //             "phone":phone.value,
+      //             "csrfmiddlewaretoken":"{{csrf_token}}"
+      //         },
+      //         function(data, status){
+      //             if(status=="success"){
+      //                 if(data=="not unique"){
+      //                     document.getElementById("usererr").style.display = "block";
+      //                     document.getElementById("usererr").innerHTML = "This username is already in use";
+      //                 }
+      //                 else{
+      //                 gototp = data;
+      //                 document.getElementById("next").click();
+      //                 }
+      //             }
+      //         });
+      // }
+
+    }
+
+  </script>
+</body>
+</html>

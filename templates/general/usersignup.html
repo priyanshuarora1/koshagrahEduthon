@@ -1,0 +1,119 @@
+{% extends 'general/userlogin.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>Signup | Koshagrah</title>
+{% endblock %}
+
+{% block content %}
+<div class="form">
+    <ul class="tab-group">
+        <li class="tab active"><a href="#signup">Sign Up</a></li>
+    </ul>
+    <form action="/member/register" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="adminid" value="{{id}}" style="display: none;">
+        <div id="signup">
+            <div class="top-row">
+                <div class="field-wrap">
+                    <input class="form-check-input" style="height: 20px; width: 20px; margin: 10px;" type="radio"
+                        name="type" id="type" value="teacher" checked>
+                    <label class="form-check-label" style="padding-left: 20px;" for="type">
+                        Teacher
+                    </label>
+                </div>
+                <div class="field-wrap">
+                    <input class="form-check-input" style="height: 20px; width: 20px; margin:10px" type="radio"
+                        name="type" id="type" value="student">
+                    <label class="form-check-label" style="padding-left: 20px;" for="exampleRadios2">
+                        Student
+                    </label>
+                </div>
+            </div>
+            <div class="field-wrap">
+                <label>
+                    Name<span class="req">*</span>
+                </label>
+                <input class="textfe" type="text" name="name" required autocomplete="off" />
+            </div>
+
+            <div class="field-wrap">
+                <label>
+                    TeacherId/ Addmission No<span class="req">*</span>
+                </label>
+                <input class="textfe" type="text" name="uniqueid" required autocomplete="off" />
+            </div>
+            <div class="field-wrap">
+                <label>
+                    Email Address<span class="req">*</span>
+                </label>
+                <input class="textfe" type="email" name="email" required autocomplete="off" />
+            </div>
+
+
+            <div class="field-wrap">
+                <label>
+
+                    Contact Number <span class="req">*</span>
+                </label>
+                <input class="textfe" type="text" name="phone" required autocomplete="off" />
+            </div>
+
+            <div class="field-wrap">
+                <label>
+                    Choose a Password<span class="req">*</span>
+                </label>
+                <input class="textfe" type="password" name="password" onkeyup="passlen()" id="pass1" required autocomplete="off" />
+                <span id="pass1err" style="color:red"></span>
+            </div>
+
+
+            <div class="field-wrap">
+                <label>
+                    Confirm Password<span class="req">*</span>
+                </label>
+                <input class="textfe" type="password" onkeyup="verifypass()" id="pass2" required autocomplete="off" />
+                <span id="pass2err" style="color:red"></span>
+            </div>
+
+            <button type="submit" id="submitbtn" disabled class="button button-block">Get Started</button>
+
+    </form>
+
+</div>
+<script>
+    paas = document.getElementById('pass1');
+    paas2 = document.getElementById('pass2');
+    btn = document.getElementById('submitbtn');
+    error = document.getElementById('pass1err');
+    error2 = document.getElementById('pass2err');
+    function passlen() {
+        if (paas.value.length < 8) {
+            error.innerHTML = "Passsword too short";
+            paas.style.borderColor = "red";
+            // showSnackBar('Please fill the name',hasAction = false,actionText = String(),isNormal = false,isWarning = true);
+            btn.disabled = true;
+        }
+        else {
+            error.innerHTML = "";
+            paas.style.borderColor = "green";
+        }
+    }
+
+    function verifypass(){
+        console.log(paas.value==paas2.value);
+        if(paas.value!=paas2.value){
+            error2.innerHTML = "Password not matched";
+            paas2.style.borderColor = "red";
+            // showSnackBar('Please fill the name',hasAction = false,actionText = String(),isNormal = false,isWarning = true);
+            btn.disabled = true;
+        }
+        else {
+            error2.innerHTML = "";
+            paas2.style.borderColor = "green";
+            btn.disabled = false;
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,32 @@
+body {
+    /* background:url("/static/img/background.jpeg"); */
+    background: url("/static/img/background.jpg");
+    background-size:cover,contain;
+    background-repeat:no-repeat;
+}
+.container {
+    margin:0px 50px 0px 25%;
+    background: transparent;
+    padding:20px;
+    margin-bottom:100px;
+    height: 100%;
+}
+
+.image-upload > input
+{
+    display: none;
+}
+
+@media screen and (max-width:991px){
+    .container {
+        margin:0px 50px;
+    }
+}
+
+@media screen and (max-width:785px){
+    .container{
+        margin:0px 0px;
+    }
+}
+
+

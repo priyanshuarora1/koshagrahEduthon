@@ -1,0 +1,144 @@
+{% extends 'sanstha/dashboard.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/snackbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/w3css.css' %}">
+<script src="{% static 'js/jquery.min.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div id="snackBar" class="snackbar snack-show">
+  <span class="snackText" id="snackText"></span>
+  <button class="snack-button" id="snackButton"></button>
+  </div>
+<div class="pendingReq">
+		<pre><h2 class="heading" style="text-align: center; background-color: #179b77; padding: 5px; margin: 10px; border-radius: 10px;">P E N D I N G  R E Q U E S T S</h2></pre>
+    <button class="w3-button w3-pink" style="text-align: center;outline:0px" onclick="tea()">TEACHERS</button>
+    <button class="w3-button w3-pink w3-center w3-centered outline:0px" onclick="stu()" >STUDENTS</button>
+    <div class="row" id="id01" style="margin: 20px;display: none; ">
+      {% if stu_req %}
+      {% for r in stu_req %}
+          <div class="col-sm-6">
+            <div class="card" id="{{r.id}}">
+              <div class="card-body">
+              	<!-- <img src="{% static 'img/photo.jpg' %}"  class="photo" style="float: right;"> -->
+                <h5 class="card-title" style="color: purple;">{{r.name}}</h5>
+                <p class="card-text"><b>Category: </b>Student</p>
+                <p class="card-text"><b>Admission No: </b>{{r.stuid}}</p>
+                <p class="card-text"><b>Email Id: </b> {{r.email}} </p>
+                <button onclick="acceptstudent('{{r.id}}')"class="accept">Accept</button>
+                <button onclick="declinestudent('{{r.id}}')" class="decline">Decline</button>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <span class="w3-center w3-large">No pending Request</span>
+          {% endif %}
+      	</div>
+        <div class="row" id="id02" style="margin: 20px; display: none;">
+          {% if teacher_req %}
+          {% for r in teacher_req %}
+          <div class="col-sm-6">
+            <div class="card" id="{{r.id}}">
+              <div class="card-body">
+              	<img src="{% static 'img/photo.jpg' %}" class="photo" style="float: right;">
+                <h5 class="card-title" style="color: purple;">{{r.name}}</h5>
+                <p class="card-text"><b>Category: </b>teacher</p>
+                <p class="card-text"><b>Employee ID: </b>{{r.empid}}</p>
+                <p class="card-text"><b>Email Id: </b>{{r.email}}</p>
+              <button onclick="accept('{{r.id}}')" class="accept">Accept</button>
+              <button onclick="decline('{{r.id}}')" class="decline">Decline</button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        {% else %}
+          <span class="w3-center w3-large">No pending Request</span>
+          {% endif %}
+          </div>
+      	</div>
+<script src="{% static 'js/snackbar.js' %}" ></script>     
+<script>
+window.onload = tea();
+   function stu() {
+    {
+      document.getElementById('id02').style.display='none';      
+        document.getElementById('id01').style.display='block';
+    }
+
+  }
+  function tea(){
+    {
+        document.getElementById('id01').style.display='none';    
+        document.getElementById('id02').style.display='block';
+    }
+  }
+
+  function accept(id){
+    $.post("/accept/teacher",
+    {
+        "id":id,
+        "csrfmiddlewaretoken":"{{csrf_token}}"
+    },
+    function(data,status){
+        if(status=="success"){
+            showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+            setInterval(() => {
+              document.getElementById(id).style.display="none";
+            }, 200);
+    }
+    });
+    
+}
+function acceptstudent(id){
+
+    $.post("/accept/student",
+    {
+        "id":id,
+        "csrfmiddlewaretoken":"{{csrf_token}}"
+    },
+    function(data,status){
+        if(status=="success"){
+            showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+            setInterval(() => {
+              document.getElementById(id).style.display="none";
+            }, 200);
+    }
+    });
+    
+}
+
+function decline(id){
+    $.post("/decline/teacher",
+    {
+        "id":id,
+        "csrfmiddlewaretoken":"{{csrf_token}}"
+    },
+    function(data,status){
+        if(status=="success"){
+            showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+    }
+    });
+    
+}
+
+function declinestudent(id){
+    $.post("/decline/student",
+    {
+        "id":id,
+        "csrfmiddlewaretoken":"{{csrf_token}}"
+    },
+    function(data,status){
+        if(status=="success"){
+            showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+    }
+    });
+    
+} 
+
+</script>
+
+{% endblock %}

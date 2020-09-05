@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Profile</title>
+	<meta charset="utf-8">
+  <link rel="stylesheet" href="{% static 'css/w3css.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1 max-scale=1 user-scalable=0">
+    <!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{%static 'css/profile.css' %}">
+  <style type="text/css">
+  	body{
+  		margin-left: auto;
+  	}
+  	 .errormsg {
+  	}
+    margin-left: 20px;
+    margin-top:2px;
+    font-size: 1em;
+    color:red;
+    display: none;
+  }
+  .dp:hover{
+  	opacity:0.5;
+  }
+  .icons{
+  	text-decoration: none;
+  }
+  .icons:hover{
+  	text-decoration: none;
+  }
+  </style>
+</head>
+<body>
+	<div class="container" style="width: 100%;">
+	  <div class="profile-header" style="background-image: url('media/{{user.coverphoto}}'); background-repeat: no-repeat; background-size: cover; width: 100%;">
+		<div  style="height: 100%; width: 100%; background:rgba(0,0,0,0.3);position: absolute"></div>
+	    <div class="profile-img">
+	      <img src="media/{{user.photo}}" class="dp" width="200" alt="Profile Image" id="photo">
+		</div>
+		
+	    <div class="profile-nav-info" style="z-index: 2;"> 
+	      <h3 class="user-name w3-text-white">{{user.name}}</h3>
+	      <p class="w3-text-light-gray">
+	      	{% if user.stuid %}Student {% else %}Teacher{% endif %}
+	      </p>
+	      <!-- <a href="#" class="icons" onclick="editprofile();"><i class="fa fa-edit icon px-2 py-1" style="border-radius: 5px; background-color: #ffffce; color: black;"> Edit Profile</i></a> -->
+	    </div>
+	  </div>
+
+	  <div class="main-bd">
+	    <div class="left-side">
+	      <div class="profile-side">
+	        <p class="mobile-no"><i class="fa fa-phone"></i> +91-{{user.phone}}</p>
+	        <p class="mobile-no"><i class="fa fa-user"></i>{% if user.stuid %}{{user.stuid}} {% else %}{{user.empid}}{% endif %}</p>
+	        <p class="user-mail"><i class="fa fa-envelope"></i>{{user.email}}</p>
+	        {% if details.dob %}<p><i class="fa fa-calendar" aria-hidden="true"></i>{{details.dob}}</p>{% endif %}
+	        <p class="social">
+	        	{% if details.websiteurl %}<a href="{{details.websiteurl}}" target="_blank"><i class="fab fa fa-globe"></i></a>{% endif %}
+	        	{% if details.fblink %}<a href="{{details.fblink}}" target="_blank"><i class="fab fa-facebook-f"></i></i>{% endif %}</a>
+	        	{% if details.githublink %}<a href="{{details.githublink}}" target="_blank"><i class="fab fa fa-github"></i>{% endif %}</a>
+	        	{% if details.linkedinlink %}<a href="{{details.linkedinlink}}" target="_blank"><i class="fab fa fa-linkedin"></i>{% endif %}</a>
+	        	{% if details.instalink %}<a href="{{details.instalink}}" target="_blank"><i class="fab fa fa-instagram"></i>{% endif %}</a>
+	        </p>
+	        <div class="user-bio">
+	          <h3>About</h3>
+	          <p>
+	           {{details.about}}
+	          </p>
+	        </div>
+	        <!-- <div class="profile-btn">
+	          <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Chat</button>
+	        </div> -->
+	        <!-- <div class="user-rating">
+	          <h3 class="rating">4.5</h3>
+	          <div class="rate">
+	            <div class="star-outer">
+	              <div class="star-inner">
+	                <i class="fa fa-star"></i>
+	                <i class="fa fa-star"></i>
+	                <i class="fa fa-star"></i>
+	                <i class="fa fa-star"></i>
+	                <i class="fa fa-star"></i>
+	              </div>
+	            </div>
+	          </div>
+	        </div> -->
+	      </div>
+	    </div>
+	    <div class="right-side">
+	      <div class="nav">
+	        <ul>
+	          <li onclick="tabs(0)" class="nav-list user-post active">Posts</li>
+	          <li onclick="tabs(1)" class="nav-list user-review">Reviews</li>
+	        </ul>
+	      </div>
+	      <div class="profile-body">
+	        <div class="profile-posts tab">
+			  
+	            <!-- <div class="row"> -->
+					{% for post in posts %}
+					<div class="w3-card-4 w3-center w3-hover-shadow w3-round-large" style="background:#ffffce;padding-bottom:20px;max-width:600px; margin-bottom: 10px;">
+						<header class="w3-container  w3-round-large">
+							<a href="#" style="margin:10px 0px 0px 10px;display:flex;">
+								<img class="w3-circle" style="height:40px; width:40px" src="media/{{post.photolink}}" alt="User"
+									title="Click for menu">
+								<h3 style="margin-left:10px;margin-top: 10px; transform:translateY(-15px);color: black;">{{post.name}}</h3>
+							</a>
+							<h6 class="w3-left w3-small w3-text-gray" style="margin-left:60px;transform:translateY(-30px);user-select: none; margin-top: 17px;">{{post.time}}</h6>
+							<div class="w3-container" style="margin:0px;transform:translateY(-30px)">
+								<p style="font-weight: bold; text-align: left;">{{post.desc}}</p>
+								<button class="w3-btn w3-left w3-round-large w3-shadow" style="background-color: #ffeb3b; color: black;"><a style="text-decoration:none; color: black;"href="{{post.link}}">View More &rarr;</a></button>
+							</div>
+						</header>
+						<div class="w3-container" style="background:#ffffce">
+							{% if post.image %}
+							<img src="media/{{post.image}}" style="border-bottom: 10px;" height="200" width="200" alt="Avatar">
+		
+							{% endif %}
+						</div>
+					</div>
+					{% endfor %}
+	        </div>
+
+	        <div class="profile-reviews tab">
+	        	{% if user.designation %}
+	        	<a href="#" class="icons" onclick="toggle_visibility('review');"><i class="fa fa-edit icon px-2 py-1" style="border-radius: 5px; background-color: #ffffce; color: black; float: right;"> Add a Review</i></a>
+	        	<form action="/review" method="POST" id="review" enctype="multipart/form-data" style="display:none">
+                {% csrf_token %}
+                <div class="w3-container  w3-round-large w3-hover-shadow w3-card-4"
+                    style="padding: 0px;max-width: 600px;">
+                    <textarea style="background:#ffffce;outline:0px;resize: none; border:0px;"
+                        class="w3-padding w3-round-large w3-border-bottom w3-input " type="text" rows="4"
+                        name="review" placeholder="Write a review..."></textarea>
+                    <button type="submit" class="w3-btn w3-round w3-right w3-margin w3-padding w3-yellow">Post</button>
+                </div>
+            </form>
+            {% endif %}
+	          <h1>Review By Teachers</h1>
+
+		            <div class="w3-card-4 w3-hover-shadow col-sm-12" style="margin-bottom: 10px;">
+			        	<header class="w3-container w3-light-grey" style="display: flex;">
+			            	<a href="#" style="padding:8px 0px 8px 16px;"><img class="w3-circle"style="height:40px; width:40px" src="https://rajathandsom.pythonanywhere.com/static/images/user.png"alt="User" title="Click for menu"></a>
+			          		<h3>Teacher 1</h3>
+			        	</header>
+			        	<div class="w3-container">
+				          	<p>very good student. very good student. very good student. very good student. very good student. very good student. very good student. very good student. very good student.</p>
+			          		<!-- <div class="user-rating">
+					          <h5>Rating: 4 </h5>
+					          <div class="rate">
+					            <div class="star-outer">
+					              <div class="star-inner">
+					                <i class="fa fa-star"></i>
+					              </div>
+					            </div>
+					          </div>
+				         	</div> -->
+		        		</div>
+	        		</div>
+	        		<div class="w3-card-4 w3-hover-shadow col-sm-12" style="margin-bottom: 10px;">
+
+			        	<header class="w3-container w3-light-grey" style="display: flex;">
+			            	<a href="#" style="padding:8px 0px 8px 16px;"><img class="w3-circle"style="height:40px; width:40px" src="https://rajathandsom.pythonanywhere.com/static/images/user.png"alt="User" title="Click for menu"></a>
+			          		<h3>Teacher 1</h3>
+			        	</header>
+			        	<div class="w3-container">
+				          	<p>very good student. very good student. very good student. very good student. very good student. very good student. very good student. very good student. very good student.</p>
+			          		<!-- <div class="user-rating">
+					          <h5>Rating: 4 </h5>
+					          <div class="rate">
+					            <div class="star-outer">
+					              <div class="star-inner">
+					                <i class="fa fa-star"></i>
+					              </div>
+					            </div>
+					          </div>
+				         	</div> -->
+		        		</div>
+	        		</div>
+	    	</div>
+
+	
+        	</div>
+
+
+	    </div>
+	</div>
+</div>
+<script type="text/javascript" src="{%static 'js/profile.js' %}"></script>
+<script type="text/javascript">
+	function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+   }
+</script>
+</body>
+</html>
