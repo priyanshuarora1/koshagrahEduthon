@@ -20,8 +20,7 @@
   	body{
   		margin-left: auto;
   	}
-  	 .errormsg {
-  	}
+.errormsg {
     margin-left: 20px;
     margin-top:2px;
     font-size: 1em;
@@ -41,10 +40,10 @@
 </head>
 <body>
 	<div class="container" style="width: 100%;">
-	  <div class="profile-header" style="background-image: url('media/{{user.coverphoto}}'); background-repeat: no-repeat; background-size: cover; width: 100%;">
+	  <div class="profile-header" style="background-image: url('/media/{{user.coverphoto}}'); background-repeat: no-repeat; background-size: cover; width: 100%;">
 		<div  style="height: 100%; width: 100%; background:rgba(0,0,0,0.3);position: absolute"></div>
 	    <div class="profile-img">
-	      <img src="media/{{user.photo}}" class="dp" width="200" alt="Profile Image" id="photo">
+	      <img src="/media/{{user.photo}}" class="dp" width="200" alt="Profile Image" id="photo">
 		</div>
 		
 	    <div class="profile-nav-info" style="z-index: 2;"> 
@@ -76,9 +75,9 @@
 	           {{details.about}}
 	          </p>
 	        </div>
-	        <!-- <div class="profile-btn">
-	          <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Chat</button>
-	        </div> -->
+	        <div class="profile-btn">
+	          <button class="chatbtn" id="chatBtn"><a class="w3-text-white"href="/chat/{{userid}}*$*{{username}}"><i class="fa fa-comment"></i> Chat</a></button>
+	        </div>
 	        <!-- <div class="user-rating">
 	          <h3 class="rating">4.5</h3>
 	          <div class="rate">
@@ -98,19 +97,24 @@
 	    <div class="right-side">
 	      <div class="nav">
 	        <ul>
-	          <li onclick="tabs(0)" class="nav-list user-post active">Posts</li>
-	          <li onclick="tabs(1)" class="nav-list user-review">Reviews</li>
+			  <li onclick="tabs(0)" class="nav-list user-post active">Posts</li>
+			  <li onclick="tabs(1)" class="nav-list user-post">Certificates</li>
+
+			  {% if not user.designation %}
+			  <li onclick="tabs(2)" class="nav-list user-review">Reviews</li>
+			  {% endif %}
 	        </ul>
 	      </div>
 	      <div class="profile-body">
 	        <div class="profile-posts tab">
 			  
 	            <!-- <div class="row"> -->
+					{% if posts %}
 					{% for post in posts %}
 					<div class="w3-card-4 w3-center w3-hover-shadow w3-round-large" style="background:#ffffce;padding-bottom:20px;max-width:600px; margin-bottom: 10px;">
 						<header class="w3-container  w3-round-large">
 							<a href="#" style="margin:10px 0px 0px 10px;display:flex;">
-								<img class="w3-circle" style="height:40px; width:40px" src="media/{{post.photolink}}" alt="User"
+								<img class="w3-circle" style="height:40px; width:40px" src="/media/{{post.photolink}}" alt="User"
 									title="Click for menu">
 								<h3 style="margin-left:10px;margin-top: 10px; transform:translateY(-15px);color: black;">{{post.name}}</h3>
 							</a>
@@ -122,16 +126,40 @@
 						</header>
 						<div class="w3-container" style="background:#ffffce">
 							{% if post.image %}
-							<img src="media/{{post.image}}" style="border-bottom: 10px;" height="200" width="200" alt="Avatar">
+							<img src="/media/{{post.image}}" style="border-bottom: 10px;" height="200" width="200" alt="Avatar">
 		
 							{% endif %}
 						</div>
 					</div>
 					{% endfor %}
+					{% else %}
+						<div class="w3-xxlarge">You have not posted anything yet.</div>
+					{% endif %}
 	        </div>
-
+			<div class="profile-certificates tab">
+				<div class="row">
+					{% if cert %}
+					<center>
+					{% for c in cert %}
+					<div class="column cont w3-card w3-white w3-margin w3-padding w3-round-large" style="height:300px;width:50vw;min-width:300px" >
+					  <img  src="/media/{{c.image}}" style="padding-bottom: 4px;max-height: 280px; max-width:280px">
+					  <div class="overlay">
+						<a href="{{a.link}}"> <button class="w3-btn w3-round w3-right w3-margin w3-padding w3-yellow">Link</button></a> 
+						
+						<div class="text">{{c.desc}}</div>
+					  </div>
+					  <figcaption>{{c.name}}</figcaption>
+				  </div>
+				  {% endfor %}
+				  {% else %}
+						<div class="w3-xxlarge">No certificate to display</div>
+					</center>
+						{% endif %}
+				  </div></div>
+					  
 	        <div class="profile-reviews tab">
-	        	{% if user.designation %}
+				
+	        	{% if logged.designation %}
 	        	<a href="#" class="icons" onclick="toggle_visibility('review');"><i class="fa fa-edit icon px-2 py-1" style="border-radius: 5px; background-color: #ffffce; color: black; float: right;"> Add a Review</i></a>
 	        	<form action="/review" method="POST" id="review" enctype="multipart/form-data" style="display:none">
                 {% csrf_token %}
@@ -139,7 +167,11 @@
                     style="padding: 0px;max-width: 600px;">
                     <textarea style="background:#ffffce;outline:0px;resize: none; border:0px;"
                         class="w3-padding w3-round-large w3-border-bottom w3-input " type="text" rows="4"
-                        name="review" placeholder="Write a review..."></textarea>
+						name="review" placeholder="Write a review..."></textarea>
+						<input type="text" name="empname" value="{{logged.name}}" disabled style="display: none;">
+						<input type="text" name="emplink" value="/viewprofile/T/{{logged.id}}" disabled style="display: none;">
+						<input type="text" name="empname" value="{{user.id}}" disabled style="display: none;">
+						<input type="text" name="empname" value="{{logged.photo}}" disabled style="display: none;">
                     <button type="submit" class="w3-btn w3-round w3-right w3-margin w3-padding w3-yellow">Post</button>
                 </div>
             </form>

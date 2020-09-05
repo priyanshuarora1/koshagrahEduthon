@@ -110,7 +110,8 @@
                     <h6 class="w3-left w3-small w3-text-gray" style="margin-left:60px;transform:translateY(-30px);user-select: none;">{{post.time}}</h6>
                     <div class="w3-container" style="margin:0px;transform:translateY(-30px)">
                         <p style="font-weight: bold; text-align: left;">{{post.desc}}</p>
-                        <button class="w3-btn w3-left w3-yellow w3-round-large w3-shadow"><a style="text-decoration:none"href="{{post.link}}" target="_blank">View More &rarr;</a></button>
+                        {% if post.link %} <button class="w3-btn w3-left w3-yellow w3-round-large w3-shadow"><a style="text-decoration:none"href="{{post.link}}" target="_blank">View More &rarr;</a></button>
+                        {% endif %}
                     </div>
                 </header>
                 <div class="w3-container" style="background:#ffffce">

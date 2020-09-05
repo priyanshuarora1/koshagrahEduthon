@@ -11,7 +11,7 @@ import math, random
 from django.shortcuts import redirect
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from datetime import datetime
-from .models import upload_posts,upload_achievements,upload_achievements_emp
+from .models import upload_posts,upload_achievements,upload_achievements_emp,chat_message,latestmessage,viewthread
 import base64
 from django.core.files.base import ContentFile
 from datetime import datetime
@@ -151,7 +151,7 @@ def home(request):
     except:
         username = request.session['student']
         log=studentmodel.objects.get(stuid=username)
-    posts=upload_posts.objects.filter(admin=log.admin)
+    posts=upload_posts.objects.filter(admin=log.admin).order_by("id")[::-1]
     return render(request,"general/home.html",{'posts':posts})
 
 @xframe_options_sameorigin
@@ -172,12 +172,13 @@ def profile(request):
             user=teachermodel.objects.get(empid=request.session["teacher"])
             details = teacherdetails.objects.get(admin_id=user.id)
             username=user.empid
+            detail = upload_achievements_emp.objects.filter(user=user)
         except:
             user = studentmodel.objects.get(stuid=request.session["student"])
             details = studentdetails.objects.get(admin_id=user.id)
             username=user.stuid
-        detail = upload_achievements.objects.filter(user=user)
-        posts=upload_posts.objects.filter(admin=user.admin,username=username ) 
+            detail = upload_achievements.objects.filter(user=user)
+        posts=upload_posts.objects.filter(admin=user.admin,username=username ).order_by("id")[::-1]
         return render(request,"general/profile.html",{"user":user,"details":details,"posts":posts,"cert":detail})
     else:
         return redirect("/login ")
@@ -212,7 +213,26 @@ def student_decline(request):
 
 @xframe_options_sameorigin
 def threads(request):
-    return render(request,"general/messages.html")
+    try:
+        user=teachermodel.objects.get(empid=request.session["teacher"])
+        username = user.empid
+    except:
+        user = studentmodel.objects.get(stuid=request.session["student"])
+        username = user.stuid
+
+    thread = latestmessage.objects.filter(myid=username)
+    chatlog = []
+    for i in thread:
+        try:
+            person=teachermodel.objects.get(empid=i.fid)
+        except:
+            person = studentmodel.objects.get(stuid=i.fid)
+        temp = viewthread()
+        temp.name = person.name
+        temp.photo = person.photo
+        temp.chatid = i.chatid
+        chatlog.append(temp)
+    return render(request,"general/messages.html",{"threads":chatlog})
 
 @xframe_options_sameorigin
 def chatroom(request):
@@ -236,8 +256,12 @@ def setting(request):
 
 @xframe_options_sameorigin
 def contacts(request):
-    teachers = teachermodel.objects.all()
-    students = studentmodel.objects.all()
+    try:
+        user = teachermodel.objects.get(empid=request.session['teacher'])
+    except:
+        user = studentmodel.objects.get(stuid=request.session['student'])
+    teachers = teachermodel.objects.filter(admin_id=user.admin_id)
+    students = studentmodel.objects.filter(admin_id=user.admin_id)
     return render(request,"general/contacts.html",{"teachers":teachers,"students":students})
 
 def editprofile(request):
@@ -366,9 +390,9 @@ def post(request):
                 base64_string = request.POST["outputimg"]
                 image = request.FILES["file"]
                 data = ContentFile(base64.b64decode(base64_string), name=image.name)
-                r=upload_posts.objects.create(desc=desc,image=data,link=link,admin=user.admin,name=user.name,username=user.empid,profilelink="T/"+int(user.id),photolink=user.photo,designation=1,time=time)
+                r=upload_posts.objects.create(desc=desc,image=data,link=link,admin=user.admin,name=user.name,username=user.empid,profilelink="T/"+str(user.id),photolink=user.photo,designation=1,time=time)
             except:
-                r=upload_posts.objects.create(desc=desc,link=link,admin=user.admin,name=user.name,username=user.empid,profilelink="T/"+int(user.id),photolink=user.photo,designation=1,time=time)
+                r=upload_posts.objects.create(desc=desc,link=link,admin=user.admin,name=user.name,username=user.empid,profilelink="T/"+str(user.id),photolink=user.photo,designation=1,time=time)
         except:
             user = studentmodel.objects.get(stuid=request.session["student"])
             try:
@@ -388,6 +412,7 @@ def post(request):
             except:
                 r=upload_posts.objects.create(time=time,desc=desc,link=link,admin=user.admin,name=user.name,username=user.stuid,profilelink="S/"+str(user.id),photolink=user.photo,designation=0)
         return redirect("/home")
+
 def achievements(request):
     if(request.session.has_key("logged") and request.session["logged"]==True):
         try:
@@ -412,8 +437,10 @@ def achievements(request):
             photo=request.FILES['cert']
             upload_achievements.objects.create(user=u,desc=desc,name=name,link=link,image=photo)
             return redirect('/home')
-@login_required
-def deleteachievements(request):
+
+
+
+def deleteachievements(request,id):
     if(request.session.has_key("logged") and request.session["logged"]==True):
         try:
             u=teachermodel.objects.get(empid=request.session["teacher"])
@@ -432,7 +459,6 @@ def deleteachievements(request):
             else:
                 return HttpResponse("You can't access this request!")
 
-<<<<<<< HEAD
 def evaluate(a,b):
     l=[]
     l.append(a)
@@ -440,53 +466,92 @@ def evaluate(a,b):
     chatid=max(l)+'*$*'+min(l)
     return chatid
 
+@xframe_options_sameorigin
 def chat(request,id):
     a,b=id.split('*$*')
     chatid=evaluate(a,b)
     try:
-        messages=chat_message.object.filter(chatid=chatid)
-        return render(request,"general/",{"me":me,"friend":friend,'messages':messages})
+        obj1 = teachermodel.objects.get(empid=b)
     except:
-        return render(request,"general/",{"me":me,"friend":friend})
+        obj1 = studentmodel.objects.get(stuid=b)
+    try:
+        obj2 = teachermodel.objects.get(empid=a)
+    except:
+        obj2 = studentmodel.objects.get(stuid=a)
+    try:
+        username=request.session["teacher"]
+        
+    except:
+        username=request.session["student"]
+    if a==username:
+        friend=obj1
+        me = obj2
+        fname,myname = b,a
+
+    else:
+        friend = obj1
+        me = obj2
+        fname,myname = b,a
+    try:
+        messages=chat_message.objects.filter(chatid=chatid)
+        return render(request,"general/chatroom.html",{"me":me,"friend":friend,'messages':messages,"roomcode":chatid,"fname":fname,"myname":myname})
+    except:
+        return render(request,"general/chatroom.html",{"me":me,"friend":friend,"roomcode":chatid,"fname":fname,"myname":myname})
 
 def savechat(request):
     desc=request.POST.get('desc')
     sender=request.POST.get('sender')
     reciever=request.POST.get('reciever')
     chatid=request.POST.get('chatid')
+    print(chatid,sender,reciever,desc)
     fmt = "%d-%m-%Y %H:%M"
     zone = 'Asia/Kolkata'
     now_time = datetime.now(timezone(zone))
     time = now_time.strftime(fmt)
-    messages=chat_message.object.filter(chatid=chatid,desc=desc,sender=sender,reciever=reciever,time=time)
+    messages=chat_message.objects.create(chatid=chatid,desc=desc,sender=sender,reciever=reciever,time=time)
     lastmessage(chatid,sender,reciever)
     return HttpResponse('Send')
 
 def lastmessage(id,sender,reciever):
     try:
-        username=request.session["teacher"]
-    except:
-        username=request.session["student"]
-    if sender==username:
-        fid=reciever
-    else:
-        fid=sender
-    try:
-        r=lastmessage.objects.get(myid=username,fid=uname2,chatid=id)
-        s=lastmessage.objects.get(myid=uname2,fid=username,chatid=id)
+        r=latestmessage.objects.get(myid=sender,fid=reciever,chatid=id)
+        s=latestmessage.objects.get(myid=reciever,fid=sender,chatid=id)
         r.delete()
         s.delete()
-        r=lastmessage.objects.create(myid=username,fid=uname2,chatid=id,flag=0)
-        s=lastmessage.objects.create(myid=uname2,fid=username,chatid=id,flag=1)
+        r=latestmessage.objects.create(myid=sender,fid=reciever,chatid=id,flag=0)
+        s=latestmessage.objects.create(myid=reciever,fid=sender,chatid=id,flag=1)
     except:
-        r=lastmessage.objects.create(myid=username,fid=uname2,chatid=id,flag=0)
-        s=lastmessage.objects.create(myid=uname2,fid=username,chatid=id,flag=1)
-    
+        r=latestmessage.objects.create(myid=sender,fid=reciever,chatid=id,flag=0)
+        s=latestmessage.objects.create(myid=reciever,fid=sender,chatid=id,flag=1)
 
-    
-=======
-def profileForOthers(request):
-    return render(request,"general/profileForOthers.html")
+def profileForOthers(request,id):
+    user = studentmodel.objects.get(id=id)
+    username = user.stuid
+    posts=upload_posts.objects.filter(username=user.stuid ) 
+    details = studentdetails.objects.get(admin_id=user.id)
+    detail = upload_achievements.objects.filter(user=user)
+    try:
+        logged=teachermodel.objects.get(empid=request.session["teacher"])
+        userid = logged.empid
+    except:
+        logged=studentmodel.objects.get(stuid=request.session["student"])
+        userid = logged.stuid
+    return render(request,"general/profileForOthers.html",{"username":username,"userid":userid,'user':user,'posts':posts,"details":details,"logged":logged,"cert":detail})
+
+    # return render(request,"general/profileForOthers.html",{'user':user,'posts':posts,"details":details})
+def empprofileForOthers(request,id):
+    user = teachermodel.objects.get(id=id)
+    username = user.empid
+    posts=upload_posts.objects.filter(username=user.empid ) 
+    detail = upload_achievements_emp.objects.filter(user=user)
+    details = teacherdetails.objects.get(admin_id=user.id)
+    try:
+        logged=teachermodel.objects.get(empid=request.session["teacher"])
+        userid = logged.empid
+    except:
+        logged=studentmodel.objects.get(stuid=request.session["student"])
+        userid = logged.stuid
+    return render(request,"general/profileForOthers.html",{"username":username,"userid":userid,'user':user,'posts':posts,"details":details,"logged":logged,"cert":detail})
 
 @xframe_options_sameorigin
 def review(request):
@@ -500,4 +565,6 @@ def review(request):
         review=request.POST.get('review')
         r=upload_review.objects.create(review=review,admin=user.admin,name=user.name,username=user.empid,profilelink="T/"+int(user.id),photolink=user.photo,designation=1,time=time)
         return redirect("/general/profileForOthers")
->>>>>>> 7965906293ae6b8a98a6de3ab3db4adf4996d674
+
+
+    

@@ -26,7 +26,6 @@ class teachermodel(models.Model):
     is_active=models.BooleanField(default=False)
     photo = models.ImageField(upload_to=path_rename, max_length=255, default='teacher/default.jpg')
     coverphoto = models.ImageField(upload_to=path_rename,default='teacher/coverphoto.jpg')
-    designation=models.BooleanField(default=1)
 
 
 def path_rename_student(instance, filename):
@@ -48,7 +47,6 @@ class studentmodel(models.Model):
     is_active=models.BooleanField(default=False)
     photo = models.ImageField(upload_to=path_rename_student, max_length=255, default='student/default.jpg')
     coverphoto = models.ImageField(upload_to=path_rename_student,default='student/coverphoto.jpg')
-    designation=models.BooleanField(default=0)
 
 
 class teacherdetails(models.Model):
@@ -95,7 +93,6 @@ class upload_achievements_emp(models.Model):
     desc=models.CharField(null=False,max_length=200)
     link=models.URLField(null=True,max_length=200)
     image=models.ImageField(upload_to='achievements/student',null=True)
-<<<<<<< HEAD
 class chat_message(models.Model):
     chatid=models.CharField(null=False,max_length=200)
     desc=models.TextField()
@@ -107,8 +104,12 @@ class latestmessage(models.Model):
     myid=models.CharField(null=False,max_length=100)
     fid=models.CharField(null=False,max_length=200)
     flag=models.BooleanField()
-=======
 
+class viewthread:
+    pic:str
+    name:str
+    chatroom:str
+    
 class upload_review(models.Model):
     admin=models.ForeignKey(User,on_delete=models.CASCADE)
     username=models.CharField(null=False,max_length=100)
@@ -118,4 +119,3 @@ class upload_review(models.Model):
     name=models.CharField(null=True,max_length=100)
     review=models.TextField()
     time = models.CharField(max_length=200,null=True)
->>>>>>> 7965906293ae6b8a98a6de3ab3db4adf4996d674

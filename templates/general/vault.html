@@ -13,6 +13,7 @@
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/w3css.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/snackbar.css' %}">
 
 <style>
     * {
@@ -182,18 +183,21 @@
 
 <div class="container">
 <div class="row">
+  {% if cert %}
   {% for c in cert %}
-  <div class="column cont w3-card w3-white" >
+  <div class="column cont w3-card w3-white" id="{{c.id}}">
     <img  src="media/{{c.image}}" style="padding-bottom: 4px;max-height: 280px;">
     <div class="overlay">
-      <a href="{{a.link}}"> <button class="w3-btn w3-round w3-right w3-margin w3-padding w3-yellow">Link</button></a> 
-      <a href="/delete/acievement/{{c.id}}"><i class="fa fa-trash w3-margin w3-padding " style="color: red;" aria-hidden="true"></i></a>
+      <a href="{{c.link}}" target="_blank"> <button class="w3-btn w3-round w3-right w3-margin w3-padding w3-yellow">View</button></a> 
+      <a href="#" onclick="del('{{c.id}}')"><i class="fa fa-trash w3-margin w3-padding " style="color: red;" aria-hidden="true"></i></a>
       <div class="text">{{c.desc}}</div>
     </div>
     <figcaption>{{c.name}}</figcaption>
 </div>
 {% endfor %}
-
+{% else %}
+<div class="w3-xxlarge w3-display-middle">No certificate uploaded yet</div>
+{% endif %}
 </div>
 
 <div class="fab" onclick="" data-toggle="modal" data-target="#myModal">+</div>
@@ -238,4 +242,18 @@
 
 
 </div>
+<div id="snackBar" class="snackbar snack-show">
+  <span class="snackText" id="snackText"></span>
+  <button class="snack-button" id="snackButton"></button>
+  </div>
+<script src="{% static 'js/snackbar.js' %}"></script>
+<script>
+  function del(id){
+    $("#"+id).hide();
+    $.post("/delete/achievements/"+id,{
+      "csrfmiddlewaretoken":"{{csrf_token}}"
+    });
+    showSnackBar("Certificate Deleted",hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+  }
+</script>
 {% endblock %}

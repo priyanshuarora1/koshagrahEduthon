@@ -39,222 +39,15 @@
 						</div>
 					</div>
 					<div class="card-body contacts_body">
-						<ui class="contacts" id="contactslist">
-							<a href="#">
-								<li class="active">
+						<ul class="contacts" id="contactslist">
+							{%if threads %}
+							{% for i in threads %}
+							<a href="chat/{{i.chatid}}">
+								<li class="normal">
 									<div class="d-flex bd-highlight">
 										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
+											<img src="/media/{{i.photo}}"
 												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Rajat</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							<a href="#">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="https://rajathandsom.pythonanywhere.com/static/images/user.png"
-												class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>Muskan</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							{% for i in messages %}
-							{% if i.isread is False %}
-							<a href="/chatroom?recipient={{i.username}}">
-								<li class="active">
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="{{i.photo}}" class="rounded-circle user_img">
 										</div>
 										<div class="user_info">
 											<span>{{i.name}}</span>
@@ -262,22 +55,10 @@
 									</div>
 								</li>
 							</a>
-							{%else %}
-							<a href="/chatroom?recipient={{i.username}}">
-								<li>
-									<div class="d-flex bd-highlight">
-										<div class="img_cont">
-											<img src="{{i.photo}}" class="rounded-circle user_img">
-										</div>
-										<div class="user_info">
-											<span>{{i.name}}</span>
-										</div>
-									</div>
-								</li>
-							</a>
-							{% endif %}
 							{% endfor %}
-						</ui>
+							{% endif %}
+							
+						</ul>
 					</div>
 
 				</div>
@@ -287,26 +68,7 @@
 	</div>
 	</div>
 </body>
-<script type="text/javascript">
-	$(document).ready(function () {
-		$('#action_menu_btn').click(function () {
-			$('.action_menu').toggle();
-		});
-	});
-
-	setInterval(function () {
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById('contactslist').innerHTML = this.responseText;
-				searchcontact();
-			};
-		}
-		xhttp.open("GET", "/refresh", true);
-		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send();
-	}, 2000);
-</script>
+	
 <script type="text/javascript">
 	function searchcontact() {
 		// Declare variables

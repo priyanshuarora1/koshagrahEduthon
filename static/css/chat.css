@@ -5,6 +5,23 @@ body,html{
   
 }
 
+.chatcontainer{
+    margin-left:20%;
+    background: transparent;
+    height:100%;
+    padding-left:15px;
+    border:0px;
+    padding-bottom:60px;
+}
+
+@media screen and (max-width:991px){
+    .chatcontainer{
+        margin:0px 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+    }
+}
+
 a {
 text-decoration: none;
 color:inherit;
@@ -29,9 +46,11 @@ background: #555;
 .chat{
     margin:0px;
     height: 100%;
+    width:100% !important;
 }
 .card{
     height: 100%;
+    width:100% !important;
     background-color: rgba(0,0,0,0.4) !important;
 }
 

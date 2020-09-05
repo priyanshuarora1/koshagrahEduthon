@@ -30,12 +30,10 @@ urlpatterns = [
     path("editcover",views.editcover,name="editcover"),
     path("post",views.post,name='post'),
     path("achievements/upload",views.achievements,name='achievements'),
-    path("delete/achievements/<str:id>",views.deleteachievements,name='deleteachievements'),
-<<<<<<< HEAD
     path("chat/<str:id>",views.chat,name='chat'),
-=======
-    path("profileForOthers",views.profileForOthers,name='profileForOthers'),
+    path("savechat",views.savechat,name='chat name'),
+    path("delete/achievements/<int:id>",views.deleteachievements,name='deleteachievements'),
+    path("viewprofile/S/<str:id>",views.profileForOthers,name='profileForOthers'),
+    path("viewprofile/T/<str:id>",views.empprofileForOthers,name='empprofileForOthers'),
     path("review",views.review,name='review'),
->>>>>>> 7965906293ae6b8a98a6de3ab3db4adf4996d674
-
     ]
