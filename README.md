@@ -30,8 +30,8 @@ Progressive Web App and
 Web Real Time Communication,
 
 # How to run?
-1 Clone the repository
-2 In CMD, run 'pip install -r requirements.txt' to install all requirements
+1 Clone the repository<br>
+2 In CMD, run 'pip install -r requirements.txt' to install all requirements<br>
 3 Run 'python manage.py runserver'  
 
 
