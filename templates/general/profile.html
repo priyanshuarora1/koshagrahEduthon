@@ -100,15 +100,11 @@
 						<button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Chat</button>
 					</div>
 					<div class="user-rating">
-						<h3 class="rating">4.5</h3>
+						
 						<div class="rate">
 							<div class="star-outer">
 								<div class="star-inner">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
+									
 								</div>
 							</div>
 						</div>
@@ -119,7 +115,9 @@
 				<div class="nav">
 					<ul>
 						<li onclick="tabs(0)" class="nav-list user-post active">Posts</li>
+						{% if user.stuid %}
 						<li onclick="tabs(1)" class="nav-list user-review">Reviews</li>
+						{% endif %}
 					</ul>
 				</div>
 				<div class="profile-body">
@@ -163,68 +161,35 @@
 						{% else %}
 						<div class="w3-xxlarge">You have not posted anything yet.</div>
 						{% endif %}
-
 					</div>
-
-					<div class="profile-reviews tab">
-						<h1>Review By Teachers</h1>
-						<div class="w3-card-4 w3-margin w3-hover-shadow col-sm-12">
-							<header class="w3-container w3-light-grey" style="display: flex;">
-								<a href="#" style="padding:8px 0px 8px 16px;"><img class="w3-circle"
-										style="height:40px; width:40px"
-										src="https://rajathandsom.pythonanywhere.com/static/images/user.png" alt="User"
-										title="Click for menu"></a>
-								<h3>Teacher 1</h3>
-							</header>
-							<div class="w3-container">
-								<p class="bio">very good student. very good student. very good student. very good
-									student. very good student. very good student. very good student. very good student.
-									very good student.</p>
-								<div class="user-rating">
-									<h5>Rating: 4 </h5>
-									<div class="rate">
-										<div class="star-outer">
-											<div class="star-inner">
-												<i class="fa fa-star"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="w3-card-4 w3-margin w3-hover-shadow col-sm-12">
-							<header class="w3-container w3-light-grey" style="display: flex;">
-								<a href="#" style="padding:8px 0px 8px 16px;"><img class="w3-circle"
-										style="height:40px; width:40px"
-										src="https://rajathandsom.pythonanywhere.com/static/images/user.png" alt="User"
-										title="Click for menu"></a>
-								<h3>Teacher 1</h3>
-							</header>
-							<div class="w3-container">
-								<p>very good student. very good student. very good student. very good student. very good
-									student. very good student. very good student. very good student. very good student.
-								</p>
-								<div class="user-rating">
-									<h5>Rating: 4 </h5>
-									<div class="rate">
-										<div class="star-outer">
-											<div class="star-inner">
-												<i class="fa fa-star"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-
 				</div>
-
-
+						<div class="profile-reviews tab">
+							{% if rev %}
+							<h1>Review By Teachers</h1>
+							{% for r in rev %}
+							<div class="w3-card-4 w3-hover-shadow col-sm-12 w3-round-large"
+								style="min-height:100px;margin-bottom: 10px;">
+								<header class="w3-container" style="display: flex;">
+									<a href="/{{r.emplink}}" style="padding:8px 0px 8px 16px;"><img class="w3-circle"
+											style="height:40px; width:40px" src="/media/{{r.empphoto}}" alt="User"
+											title="Click for menu"></a>
+									<h3 style="transform:translateY(-5px);">{{r.empname}}</h3>
+								</header>
+								<div class="w3-container">
+									<p>{{r.review}}</p>
+								</div>
+							</div>
+							{% endfor %}
+							{% else %}
+							<div class="w3-xxlarge w3-margin">No Review yet for you</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
+		</div>			</div>
+
+			
 
 	<div id="id01" class="w3-modal" style="padding-top:10px;z-index: 999;">
 		<div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:400px;margin-bottom:30px">

@@ -1,8 +1,10 @@
 {% load static %}
+{% load pwa %}
 <!DOCTYPE html>
 <html>
 
 <head>
+  {% progressive_web_app_meta %}
   <title>Koshagrah</title>
   <style>
     a{
@@ -71,7 +73,7 @@
   <div id="Demo" onclick="usermenu()" class="w3-border w3-card w3-white w3-round-large w3-display-topright w3-hide"
     style="width:200px;margin-top:8vh;margin-right:5px;z-index: 100">
     <a href="/profile" target="rajat" class="w3-button w3-block w3-padding w3-hover-light-gray">{{user.name}}</a>
-    <a href="/setting" target="rajat" class="w3-button w3-block w3-padding w3-hover-light-gray">Settings</a>
+    <!-- <a href="/setting" target="rajat" class="w3-button w3-block w3-padding w3-hover-light-gray">Settings</a> -->
     <a href="/logout" class="w3-button w3-block w3-padding w3-hover-light-gray">Logout</a>
   </div>
 

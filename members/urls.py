@@ -35,5 +35,6 @@ urlpatterns = [
     path("delete/achievements/<int:id>",views.deleteachievements,name='deleteachievements'),
     path("viewprofile/S/<str:id>",views.profileForOthers,name='profileForOthers'),
     path("viewprofile/T/<str:id>",views.empprofileForOthers,name='empprofileForOthers'),
-    path("review",views.review,name='review'),
+    path("review/<str:id>",views.reviews,name='review'),
+    path("offline.html",views.offline,name="offline"),
     ]

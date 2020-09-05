@@ -23,7 +23,7 @@
           <div class="col-sm-6">
             <div class="card" id="{{r.id}}">
               <div class="card-body">
-              	<!-- <img src="{% static 'img/photo.jpg' %}"  class="photo" style="float: right;"> -->
+              	<img src="{% static 'img/photo.jpg' %}"  class="photo" style="float: right;">
                 <h5 class="card-title" style="color: purple;">{{r.name}}</h5>
                 <p class="card-text"><b>Category: </b>Student</p>
                 <p class="card-text"><b>Admission No: </b>{{r.stuid}}</p>
@@ -85,7 +85,7 @@ window.onload = tea();
     },
     function(data,status){
         if(status=="success"){
-            showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+            showSnackBar("Accepted",hasAction = false,actionText = String(),isNormal = true,isWarning = false);
             setInterval(() => {
               document.getElementById(id).style.display="none";
             }, 200);
@@ -102,7 +102,7 @@ function acceptstudent(id){
     },
     function(data,status){
         if(status=="success"){
-            showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+            showSnackBar("Accepted",hasAction = false,actionText = String(),isNormal = true,isWarning = false);
             setInterval(() => {
               document.getElementById(id).style.display="none";
             }, 200);
@@ -113,14 +113,15 @@ function acceptstudent(id){
 
 function decline(id){
     $.post("/decline/teacher",
-    {
+    {   
         "id":id,
         "csrfmiddlewaretoken":"{{csrf_token}}"
     },
     function(data,status){
         if(status=="success"){
-            showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
-    }
+            showSnackBar("Declined",hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+            document.getElementById(id).style.display="none";
+          }
     });
     
 }
@@ -133,8 +134,9 @@ function declinestudent(id){
     },
     function(data,status){
         if(status=="success"){
-            showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
-    }
+            showSnackBar("Declined",hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+            document.getElementById(id).style.display="none";
+          }
     });
     
 } 

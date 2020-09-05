@@ -23,6 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-zf_fxrt&+s*_=x&b#-dnh!6v_pjqa3260w*y(=8ku7f)j1c!g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js/', 'serviceworker.js')
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sanstha',
+    'pwa',
     'members',
 ]
 

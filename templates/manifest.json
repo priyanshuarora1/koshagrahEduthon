@@ -1,0 +1,16 @@
+{
+  "short_name": "Koshagrah",
+  "name": "Koshagrah",
+  "icons": [
+    {
+      "src": "static/imG/icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "background_color": " #FFFFCE",
+  "display": "standalone",
+  "theme_color": "#FFFFCE"
+}

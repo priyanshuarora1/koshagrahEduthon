@@ -110,12 +110,10 @@ class viewthread:
     name:str
     chatroom:str
     
-class upload_review(models.Model):
-    admin=models.ForeignKey(User,on_delete=models.CASCADE)
-    username=models.CharField(null=False,max_length=100)
-    photolink=models.CharField(null=False,max_length=100,default='student/default.jpg')
-    profilelink=models.CharField(null=False,max_length=100)
-    designation=models.BooleanField()
-    name=models.CharField(null=True,max_length=100)
+class upload_reviews(models.Model):
+    stuid=models.CharField(null=False,max_length=100)
+    empphoto=models.CharField(null=False,max_length=100)
+    emplink=models.CharField(null=False,max_length=100)
+    empname=models.CharField(null=True,max_length=100)
     review=models.TextField()
     time = models.CharField(max_length=200,null=True)

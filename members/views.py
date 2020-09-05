@@ -11,12 +11,15 @@ import math, random
 from django.shortcuts import redirect
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from datetime import datetime
-from .models import upload_posts,upload_achievements,upload_achievements_emp,chat_message,latestmessage,viewthread
+from .models import upload_posts,upload_achievements,upload_reviews,upload_achievements_emp,chat_message,latestmessage,viewthread
 import base64
 from django.core.files.base import ContentFile
 from datetime import datetime
 from pytz import timezone
 
+@xframe_options_sameorigin
+def offline(request):
+    return render(request,"offline.html")
 
 def register_member(request):
     if request.method=="POST":
@@ -178,8 +181,9 @@ def profile(request):
             details = studentdetails.objects.get(admin_id=user.id)
             username=user.stuid
             detail = upload_achievements.objects.filter(user=user)
+        rev=upload_reviews.objects.filter(stuid=user.id)
         posts=upload_posts.objects.filter(admin=user.admin,username=username ).order_by("id")[::-1]
-        return render(request,"general/profile.html",{"user":user,"details":details,"posts":posts,"cert":detail})
+        return render(request,"general/profile.html",{"rev":rev,"user":user,"details":details,"posts":posts,"cert":detail})
     else:
         return redirect("/login ")
 def teacher_accept(request):
@@ -524,6 +528,7 @@ def lastmessage(id,sender,reciever):
         r=latestmessage.objects.create(myid=sender,fid=reciever,chatid=id,flag=0)
         s=latestmessage.objects.create(myid=reciever,fid=sender,chatid=id,flag=1)
 
+@xframe_options_sameorigin
 def profileForOthers(request,id):
     user = studentmodel.objects.get(id=id)
     username = user.stuid
@@ -536,13 +541,14 @@ def profileForOthers(request,id):
     except:
         logged=studentmodel.objects.get(stuid=request.session["student"])
         userid = logged.stuid
-    return render(request,"general/profileForOthers.html",{"username":username,"userid":userid,'user':user,'posts':posts,"details":details,"logged":logged,"cert":detail})
+    rev=upload_reviews.objects.filter(stuid=user.id)
+    return render(request,"general/profileForOthers.html",{'rev':rev,"username":username,"userid":userid,'user':user,'posts':posts,"details":details,"logged":logged,"cert":detail})
 
-    # return render(request,"general/profileForOthers.html",{'user':user,'posts':posts,"details":details})
+@xframe_options_sameorigin
 def empprofileForOthers(request,id):
     user = teachermodel.objects.get(id=id)
     username = user.empid
-    posts=upload_posts.objects.filter(username=user.empid ) 
+    posts=upload_posts.objects.filter(username=user.empid )
     detail = upload_achievements_emp.objects.filter(user=user)
     details = teacherdetails.objects.get(admin_id=user.id)
     try:
@@ -554,17 +560,21 @@ def empprofileForOthers(request,id):
     return render(request,"general/profileForOthers.html",{"username":username,"userid":userid,'user':user,'posts':posts,"details":details,"logged":logged,"cert":detail})
 
 @xframe_options_sameorigin
-def review(request):
-      if(request.session.has_key("logged") and request.session["logged"]==True):
-        fmt = "%d-%m-%Y %H:%M"
-        zone = 'Asia/Kolkata'
-        now_time = datetime.now(timezone(zone))
-        time = now_time.strftime(fmt)
-        print(time)
-        user=teachermodel.objects.get(empid=request.session["teacher"])
-        review=request.POST.get('review')
-        r=upload_review.objects.create(review=review,admin=user.admin,name=user.name,username=user.empid,profilelink="T/"+int(user.id),photolink=user.photo,designation=1,time=time)
-        return redirect("/general/profileForOthers")
-
-
+def reviews(request,id):
+    logged=teachermodel.objects.get(empid=request.session["teacher"])
+    fmt = "%d-%m-%Y %H:%M"
+    zone = 'Asia/Kolkata'
+    now_time = datetime.now(timezone(zone))
+    time = now_time.strftime(fmt)
+    print(time)
+    user=teachermodel.objects.get(empid=request.session["teacher"])
+    review=request.POST.get('review')
+    empname=logged.name
+    print(review,empname)
+    emplink='/viewprofile/T/'+str(logged.id)
+    stuid=str(id)
+    empphoto=logged.photo
+    print(stuid)
+    r=upload_reviews.objects.create(review=review,time=time,stuid=stuid,empphoto=empphoto,emplink=emplink,empname=empname)
+    return redirect("/")
     
