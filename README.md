@@ -17,7 +17,7 @@ Any two students/teachers can interact with each other even without having any p
 Now teachers are only one ping away from making an announcement among thousands of students.
 Teachers/students can chat with highly end to end encrypted messages.
 
-# Technology Used
+# Technologies Used
 Django,
 HTML,
 CSS,
