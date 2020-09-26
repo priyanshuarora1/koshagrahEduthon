@@ -3,7 +3,7 @@
   "name": "Koshagrah",
   "icons": [
     {
-      "src": "static/imG/icon.png",
+      "src": "static/img/icon.png",
       "type": "image/png",
       "sizes": "192x192"
     }
