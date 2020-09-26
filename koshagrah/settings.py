@@ -27,7 +27,7 @@ PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js/', 'serviceworker.js
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['koshagrah.pythonanywhere.com','127.0.0.1','localhost']
 
 
 # Application definition
@@ -124,10 +124,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')
-    ]
-STATIC_ROOT=os.path.join(BASE_DIR,'assets')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR,'static')
+#     ]
+STATIC_ROOT='/home/koshagrah/koshagrah/static'
 
 
 MEDIA_URL='/media/'
