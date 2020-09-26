@@ -127,7 +127,7 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR,'static')
 #     ]
-STATIC_ROOT='/home/koshagrah/koshagrah/static'
+STATIC_ROOT='/home/koshagrah/koshagrahEduthon/static'
 
 
 MEDIA_URL='/media/'
