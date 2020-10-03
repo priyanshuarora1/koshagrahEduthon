@@ -31,7 +31,7 @@ Ajax,
 JSON,
 SQL Lite,
 Progressive Web App and
-Web Real Time Communication
+Web Real Time Communication(WebRTC)
 
 # How to run?
 1 Clone the repository<br>
