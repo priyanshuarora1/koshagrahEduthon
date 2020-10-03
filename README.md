@@ -45,7 +45,10 @@ Web Real Time Communication
 9. Admin need to accept the request of teacher and user before the account can be accessed. <br>
 
 # Team Learners
-Muskan Maheshwari<br>Priyanshu Agarwal<br>Priyanshu Arora<br>Rajat Shrivastava
+- [Muskan Maheshwari](https://github.com/Muskan02)
+- [Priyanshu Agarwal](https://github.com/impriyanshu)
+- [Priyanshu Arora](https://github.com/priyanshuarora1)
+- [Rajat Shrivastava](https://github.com/rajathandsom)
 
 
 
